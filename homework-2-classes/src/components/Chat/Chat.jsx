@@ -8,8 +8,9 @@ class Chat extends React.Component {
 		super(props);
 		this.state = {
 			messages: [],
-			messageInput: ``
+			messageInput: ``,
 		};
+		this.myRef = React.createRef();
 	}
 
 	sendMessageOnEnter = (e) => {
@@ -29,6 +30,22 @@ class Chat extends React.Component {
 		});
 	};
 
+	handleScroll = () => {
+		if (this.myRef.current) {
+			const messagesList = this.myRef.current;
+			messagesList.scrollTo({
+				top: messagesList.scrollHeight,
+				behavior: `smooth`,
+			});
+		}
+	};
+
+	componentDidUpdate() {
+		if(this.state.messages.length) {
+			this.handleScroll();
+		}
+	};
+
 	render() {
 		const newMessages = this.state.messages.map((el, index) => {
 			return <Message text={el.text} key={index}/>;
@@ -36,7 +53,10 @@ class Chat extends React.Component {
 
 		return (
 			<div className="chat">
-				<div className="message-list">
+				<div
+					className="message-list"
+					ref={this.myRef}
+				>
 					<div className="messages">
 						{newMessages}
 					</div>

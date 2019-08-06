@@ -1,6 +1,7 @@
 import * as React from 'react';
 import './Form.css';
 import img from './assets/bond_approve.jpg'
+import { FormField } from './FormField';
 
 
 const notValidFieldsInfo = {
@@ -15,19 +16,30 @@ const emptyFields = {
 	[`password`]: `Нужно указать пароль`
 };
 
+const labels = [`Имя`, `Фамилия`, `Пароль`];
+const types = [`text`, `text`, `password`];
+
+const inputs = [
+	{},
+	{},
+	{},
+];
+
+const newInputs = inputs.reduce((acc, el, i) => {
+	return [...acc,
+		{
+			...el,
+			label: labels[i],
+			type: types[i],
+			name: Object.keys(emptyFields)[i]
+		}
+	];
+}, []);
+
 
 class Form extends React.Component {
-	constructor(props) {
-		super(props)
-	};
-
-	errorMessages = {
-		firstName: null,
-		lastName: null,
-		password: null,
-	};
-
 	state = {
+
 		userInfo: {
 			firstName: ``,
 			lastName: ``,
@@ -36,6 +48,12 @@ class Form extends React.Component {
 
 		validationStatus: false,
 		errorStatus: false
+	};
+
+	errorMessages = {
+		firstName: ``,
+		lastName: ``,
+		password: ``,
 	};
 
 	handleInputChange = (e) => {
@@ -79,7 +97,7 @@ class Form extends React.Component {
 	};
 
 	renderedLayout = () => {
-		const { lastName, firstName, password, validationStatus , errorStatus } = this.state;
+		const { userInfo, validationStatus , errorStatus } = this.state;
 
 		if (validationStatus) {
 			return (
@@ -91,48 +109,20 @@ class Form extends React.Component {
 							onSubmit={this.handleSubmit}
 				>
 					<h1>Введите свои данные, агент</h1>
-					<p className="field">
-						<label className="field__label"
-									 htmlFor="firstName">
-							<span className="field-label">Имя</span>
-						</label>
-						<input className="field__input field-input t-input-firstname"
-									 type="text"
-									 name="firstName"
-									 value={firstName}
-									 onChange={this.handleInputChange}
-						/>
 
-						<span className="field__error field-error t-error-firstname">{errorStatus && this.errorMessages.firstName}</span>
-					</p>
-
-					<p className="field">
-						<label className="field__label"
-									 htmlFor="lastName">
-							<span className="field-label">Фамилия</span>
-						</label>
-						<input className="field__input field-input t-input-lastname"
-									 type="text"
-									 name="lastName"
-									 value={lastName}
-									 onChange={this.handleInputChange}
+					{newInputs.map((inputField, index) => (
+						<FormField
+							key={index}
+							type={inputField.type}
+							label={inputField.label}
+							name={inputField.name}
+							value={userInfo[inputField.name]}
+							htmlFor={inputField.name}
+							handleInputChange={this.handleInputChange}
+							errorStatus={errorStatus}
+							errorMessages={this.errorMessages[inputField.name]}
 						/>
-						<span className="field__error field-error t-error-lastname">{errorStatus && this.errorMessages.lastName}</span>
-					</p>
-
-					<p className="field">
-						<label className="field__label"
-									 htmlFor="password">
-							<span className="field-label">Пароль</span>
-						</label>
-						<input className="field__input field-input t-input-password"
-									 type="password"
-									 name="password"
-									 value={password}
-									 onChange={this.handleInputChange}
-						/>
-						<span className="field__error field-error t-error-password">{errorStatus && this.errorMessages.password}</span>
-					</p>
+					))}
 
 					<div className="form__buttons">
 						<input type="submit" className="button t-submit" value="Проверить"/>
