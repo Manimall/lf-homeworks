@@ -5,15 +5,15 @@ import { FormField } from './FormField';
 
 
 const notValidFieldsInfo = {
-	[`firstName`]: `Имя указано не верно`,
-	[`lastName`]: `Фамилия указана не верно`,
-	[`password`]: `Пароль указан не верно`
+	firstName: `Имя указано не верно`,
+	lastName: `Фамилия указана не верно`,
+	password: `Пароль указан не верно`
 };
 
 const emptyFields = {
-	[`firstName`]: `Нужно указать имя`,
-	[`lastName`]: `Нужно указать фамилию`,
-	[`password`]: `Нужно указать пароль`
+	firstName: `Нужно указать имя`,
+	lastName: `Нужно указать фамилию`,
+	password: `Нужно указать пароль`
 };
 
 const labels = [`Имя`, `Фамилия`, `Пароль`];
@@ -58,35 +58,23 @@ class Form extends React.Component {
 
 	handleInputChange = (e) => {
 		const {name, value} = e.target;
-		this.setState({
+		this.setState(prevState => ({
 			userInfo: {
+				...prevState.userInfo,
 				[name]: value
 			},
-			errorStatus: false
-		});
+		}));
+		this.errorMessages = {};
 	};
 
 	checkFieldValidity = (field) => {
 		if (this.state.userInfo[field].length === 0) {
 			this.errorMessages[field] = emptyFields[field];
-			this.setState({
-				errorStatus: true
-			});
 		}
 		else if (this.props.data[field].toLowerCase() !== this.state.userInfo[field].toLowerCase()) {
 			this.errorMessages[field] = notValidFieldsInfo[field];
-			this.setState({
-				errorStatus: true
-			});
-		}
-		else {
-			this.setState({
-				errorStatus: false,
-				validationStatus: true
-			});
 		}
 	};
-
 
 	handleSubmit = (e) => {
 		e.preventDefault();
@@ -94,10 +82,24 @@ class Form extends React.Component {
 		Object.keys(this.state.userInfo).forEach((stateKey) => {
 			this.checkFieldValidity(stateKey);
 		});
+
+		console.log(this.errorMessages);
+
+		const noErrors = Object.keys(this.errorMessages).length === 0;
+		if (noErrors) {
+			this.setState({
+				validationStatus: true,
+			});
+		} else {
+			this.setState({
+				errorStatus: true,
+			});
+		}
 	};
 
+
 	renderedLayout = () => {
-		const { userInfo, validationStatus , errorStatus } = this.state;
+		const { userInfo, validationStatus, errorStatus } = this.state;
 
 		if (validationStatus) {
 			return (
