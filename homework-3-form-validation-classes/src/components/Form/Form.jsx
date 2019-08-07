@@ -50,11 +50,7 @@ class Form extends React.Component {
 		errorStatus: false
 	};
 
-	errorMessages = {
-		firstName: ``,
-		lastName: ``,
-		password: ``,
-	};
+	errorMessages = {};
 
 	handleInputChange = (e) => {
 		const {name, value} = e.target;
