@@ -3,17 +3,19 @@ import './Form.css';
 import img from './assets/bond_approve.jpg'
 import { FormField } from './FormField';
 
-
-const notValidFieldsInfo = {
-	firstName: `Имя указано не верно`,
-	lastName: `Фамилия указана не верно`,
-	password: `Пароль указан не верно`
-};
-
-const emptyFields = {
-	firstName: `Нужно указать имя`,
-	lastName: `Нужно указать фамилию`,
-	password: `Нужно указать пароль`
+const errorTexts = {
+	firstName: {
+		invalid: `Имя указано не верно`,
+		required: `Нужно указать имя`
+	},
+	lastName: {
+		invalid: `Фамилия указана не верно`,
+		required: `Нужно указать фамилию`
+	},
+	password: {
+		invalid: `Пароль указан не верно`,
+		required: `Нужно указать пароль`
+	}
 };
 
 const labels = [`Имя`, `Фамилия`, `Пароль`];
@@ -31,7 +33,7 @@ const newInputs = inputs.reduce((acc, el, i) => {
 			...el,
 			label: labels[i],
 			type: types[i],
-			name: Object.keys(emptyFields)[i]
+			name: Object.keys(errorTexts)[i]
 		}
 	];
 }, []);
@@ -65,10 +67,10 @@ class Form extends React.Component {
 
 	checkFieldValidity = (field) => {
 		if (this.state.userInfo[field].length === 0) {
-			this.errorMessages[field] = emptyFields[field];
+			this.errorMessages[field] = errorTexts[field].required;
 		}
-		else if (this.props.data[field].toLowerCase() !== this.state.userInfo[field].toLowerCase()) {
-			this.errorMessages[field] = notValidFieldsInfo[field];
+		else if (this.props.validateValues[field].toLowerCase() !== this.state.userInfo[field].toLowerCase()) {
+			this.errorMessages[field] = errorTexts[field].invalid;
 		}
 	};
 
@@ -78,8 +80,6 @@ class Form extends React.Component {
 		Object.keys(this.state.userInfo).forEach((stateKey) => {
 			this.checkFieldValidity(stateKey);
 		});
-
-		console.log(this.errorMessages);
 
 		const noErrors = Object.keys(this.errorMessages).length === 0;
 		if (noErrors) {

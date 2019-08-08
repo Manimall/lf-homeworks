@@ -13,21 +13,10 @@ class Chat extends React.Component {
 		this.myRef = React.createRef();
 	}
 
-	sendMessageOnEnter = (e) => {
-		if (e.key === `Enter` && this.state.messageInput !== ``) {
-			this.setState(prevState => {
-				return {
-					messages: [...prevState.messages, {text: prevState.messageInput}],
-					messageInput: ``
-				};
-			});
+	componentDidUpdate() {
+		if(this.state.messages.length) {
+			this.handleScroll();
 		}
-	};
-
-	changeInputMessage = (e) => {
-		this.setState({
-			messageInput: e.target.value
-		});
 	};
 
 	handleScroll = () => {
@@ -40,10 +29,21 @@ class Chat extends React.Component {
 		}
 	};
 
-	componentDidUpdate() {
-		if(this.state.messages.length) {
-			this.handleScroll();
+	sendMessageOnEnter = (e) => {
+		if (e.key === `Enter` && this.state.messageInput !== ``) {
+			this.setState(prevState => {
+				return {
+					messages: [...prevState.messages, {text: prevState.messageInput}],
+					messageInput: ``
+				};
+			});
 		}
+	};
+
+	changeInputMessage = ({target: {value}}) => {
+		this.setState({
+			messageInput: value
+		});
 	};
 
 	render() {
