@@ -2,11 +2,13 @@ import React, { PureComponent } from 'react';
 
 const { Provider, Consumer: AuthConsumer } = React.createContext('');
 
-class AuthProvider extends PureComponent {
-  constructor(props) {
-    super(props);
-  }
+const validAuthData = {
+  email: `stu@dent.com`,
+  password: 123,
+};
 
+
+class AuthProvider extends PureComponent {
   state = {
     email: ``,
     authorizeError: ``,
@@ -28,7 +30,7 @@ class AuthProvider extends PureComponent {
   };
 
   authorize = (email, password) => {
-    const {email: validEmail, password: validPassword} = this.props.validAuthData;
+    const {email: validEmail, password: validPassword} = validAuthData;
     if (email === validEmail && password === validPassword.toString()) {
       this.setState( {
         isAuthorized: true,

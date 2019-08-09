@@ -6,15 +6,10 @@ import LoginForm from '../LoginForm';
 import Congratulations from '../Congratulations';
 import { AuthProvider, AuthConsumer } from '../../contexts/Auth';
 
-const validAuthData = {
-  email: `stu@dent.com`,
-  password: 123,
-};
-
 class App extends PureComponent {
   render() {
     return (
-      <AuthProvider validAuthData={validAuthData}>
+      <AuthProvider>
         <Layout header={Header} footer={Footer}>
           <AuthConsumer>
             {({ isAuthorized, authorize, authorizeError }) =>

@@ -51,7 +51,7 @@ describe('AuthProvider', () => {
 
   describe('Функция authorize c неверными аргументами', () => {
     it('Устанавливает ошибку в state.authorizeError', () => {
-      wrapper.instance().authorize('stu@dent.com', '123');
+      wrapper.instance().authorize('stu@dent.co', '123');
       expect(wrapper.state().authorizeError).toBe(
         'Email или пароль введён не верно'
       );

@@ -4,42 +4,41 @@ import './Layout.css';
 
 class Layout extends PureComponent {
 
-  static renderHeader(Header) {
+  renderHeader = () => {
+    const {header: Header} = this.props;
     return (
       <header className="header">
-        <SectionTitle className="header__title">Header</SectionTitle>
-        <div className="header__content">
-          <Header />
-        </div>
+        <Header/>
       </header>
     );
-  }
+  };
 
-  static renderFooter(Footer) {
+  renderFooter = () => {
+    const {footer: Footer} = this.props;
     return (
       <footer className="footer">
-        <SectionTitle className="header__title">Footer</SectionTitle>
         <Footer />
       </footer>
     );
-  }
+  };
 
   render() {
-    const { header, footer, children } = this.props;
+    const { header: Header, footer: Footer, children } = this.props;
+    console.log(this.props);
     return (
       <Fragment>
-        {header && Layout.renderHeader(header)}
+        {Header && this.renderHeader()}
 
         <main
-          className={`main ${header ? 'main--with-header' : ''} ${
-            footer ? 'main--with-footer' : ''
+          className={`main ${Header ? 'main--with-header' : ''} ${
+            Footer ? 'main--with-footer' : ''
             }`}
         >
           <SectionTitle className="main__title">Main</SectionTitle>
           {children}
         </main>
 
-        {footer && Layout.renderFooter(footer)}
+        {Footer && this.renderFooter()}
       </Fragment>
     );
   }
