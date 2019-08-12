@@ -5,7 +5,8 @@
   "dependencies": {
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-scripts": "3.0.1"
+    "react-scripts": "^3.1.0",
+    "react-test-renderer": "^16.9.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -29,6 +30,7 @@
     ]
   },
   "devDependencies": {
-    "@testing-library/react": "^8.0.7"
+    "@testing-library/react": "^8.0.9",
+    "@testing-library/react-hooks": "^2.0.1"
   }
 }
