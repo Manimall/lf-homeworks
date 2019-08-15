@@ -5,13 +5,19 @@
 // Этот компонент должен использовать компонент Mail для отображения данных.
 
 
-import React from 'react';
+import React, { PureComponent }  from 'react';
 import { withData } from '../../context/Data';
 import Mail from '../Mail';
 
-const OutboxMail = (props) => {
-	console.log(props);
-	return <Mail>ffewfewf</Mail>;
-};
+class OutboxMail extends PureComponent {
+	render() {
+		const { match: { params : {id} },
+					data } = this.props;
+
+		const mail = data.outbox.find(mail => id === mail.id);
+
+		return <Mail {...mail} />
+	}
+}
 
 export default withData(OutboxMail);

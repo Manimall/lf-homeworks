@@ -13,7 +13,7 @@
 
 import React from "react";
 import { NavLink, Switch, Route } from 'react-router-dom';
-import Home from '../Home';
+import HomePage from '../Home';
 import InboxList from '../InboxList';
 import OutboxList from '../OutboxList';
 import InboxMail from '../InboxMail';
@@ -22,45 +22,25 @@ import OutboxMail from '../OutboxMail';
 import styles from './AppRouter.module.css';
 
 
-const pathPart = `/app`;
+const ComponentsTitle = {
+	[`/app`]: `Home`,
+	[`/app/inbox`]: `Inbox`,
+	[`/app/outbox`]: `Outbox`,
+};
 
 const AppRouter = (props) => {
-	console.log(props);
+	const { match, location } = props;
 
-	const home = () => (
-		<>
-			<h3 className={styles.title}>Home</h3>
-			<Home />
-		</>
-	);
+	const renderTitle = () => {
+		let title = ``;
+		Object.keys(ComponentsTitle).find(el => {
+			if (location.pathname.includes(el)) {
+				title = ComponentsTitle[el];
+			}
+		});
 
-	const inboxList = () => (
-		<>
-			<h3 className={styles.title}>Inbox</h3>
-			<InboxList />
-		</>
-	);
-
-	const inboxMail = () => (
-		<>
-			<h3 className={styles.title}>InboxMail</h3>
-			<InboxMail />;
-		</>
-	);
-
-	const outboxList = () => (
-		<>
-			<h3 className={styles.title}>Outbox</h3>
-			<OutboxList />
-		</>
-	);
-
-	const outboxMail = () => (
-		<>
-			<h3 className={styles.title}>OutboxMail</h3>
-			<OutboxMail />
-		</>
-	);
+		return <h3 className={styles.title}>{title}</h3>
+	};
 
 	return (
 		<div className={styles.wrapper}>
@@ -73,12 +53,12 @@ const AppRouter = (props) => {
 							</NavLink>
 						</li>
 						<li className={styles.navElement}>
-							<NavLink className={`${styles.link} t-link-inbox`} activeClassName='active' to="/app/inbox">
+							<NavLink className={`${styles.link} t-link-inbox`} activeClassName='active' exact to="/app/inbox">
 								Inbox
 							</NavLink>
 						</li>
 						<li className={styles.navElement}>
-							<NavLink className={`${styles.link} t-link-outbox`} activeClassName='active' to="/app/outbox">
+							<NavLink className={`${styles.link} t-link-outbox`} activeClassName='active' exact to="/app/outbox">
 								Outbox
 							</NavLink>
 						</li>
@@ -86,12 +66,15 @@ const AppRouter = (props) => {
 				</nav>
 
 				<div className={styles.content}>
+
+					{renderTitle()}
+
 					<Switch>
-						<Route path={pathPart} exact component={home} />
-						<Route path={`${pathPart}/inbox`} exact component={inboxList} />
-						<Route path={`${pathPart}/outbox`} exact component={outboxList} />
-						<Route path={`${pathPart}/inbox/:id`} component={inboxMail} />
-						<Route path={`${pathPart}/outbox/id`} component={outboxMail} />
+						<Route path={match.url} exact component={HomePage} />
+						<Route path={`${match.url}/inbox`} exact component={InboxList} />
+						<Route path={`${match.url}/outbox`} exact component={OutboxList} />
+						<Route path={`${match.url}/inbox/:id`} component={InboxMail} />
+						<Route path={`${match.url}/outbox/:id`} component={OutboxMail} />
 					</Switch>
 				</div>
 

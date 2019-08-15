@@ -6,7 +6,7 @@
 import React from 'react';
 import styles from './Home.module.css';
 
-const Home = () => {
+const HomePage = () => {
 	return (
 		<div className={styles.container}>
 			<p className="t-greeting">
@@ -16,4 +16,4 @@ const Home = () => {
 	);
 };
 
-export default Home;
+export default HomePage;
