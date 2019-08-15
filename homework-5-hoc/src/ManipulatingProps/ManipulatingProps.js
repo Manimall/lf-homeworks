@@ -62,7 +62,7 @@ export const addLoggedInUser = (MockComponent) => {
 
 export const withSort = (MockComponent) => {
 	return class withSort extends Component {
-		sortBooksByTitle = (arr) => arr.sort((a,b) => a.title - b.title);
+		sortBooksByTitle = (arr) => arr.sort((a,b) => a.title > b.title ? 1 : -1);
 		render() {
 			const {books} = this.props;
 			return <MockComponent books={this.sortBooksByTitle(books)} {...this.props} />
