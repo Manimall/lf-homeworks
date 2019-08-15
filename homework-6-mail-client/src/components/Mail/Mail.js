@@ -14,7 +14,7 @@ const Mail = (props) => {
 			</p>
 			}
 
-			{from && <p className="t-mail-to">
+			{from && <p className="t-mail-from">
 				From:
 				<b>{from}</b>
 			</p>
