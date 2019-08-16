@@ -20,7 +20,7 @@ export const UseEffectHook = () => {
 				console.log(`smth gone wrong - ${error}`);
 			}
 		})();
-	}, [joke]);
+	}, []);
 
 	return (
 		<div data-testid="joke">{joke}</div>
