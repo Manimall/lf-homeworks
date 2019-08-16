@@ -11,7 +11,7 @@ class Header extends PureComponent {
         <div className="header__content">
           <AuthConsumer>
             {({ isAuthorized, email, logout }) => (
-              isAuthorized ? (
+              isAuthorized && (
                   <div className="header-menu">
                     <p className="header-menu__email header-email t-header-email">
                       {email}
@@ -23,7 +23,6 @@ class Header extends PureComponent {
                     </button>
                   </div>
                 )
-                : null
             )}
           </AuthConsumer>
         </div>
